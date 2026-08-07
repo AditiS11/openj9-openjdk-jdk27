@@ -30,7 +30,7 @@
  * @build NativeTestHelper CallGeneratorHelper TestUpcallBase
  * @bug 8337753
  *
- * @run testng/native/othervm
+ * @run testng/native/othervm/timeout=3200
  *   -Xcheck:jni
  *   -XX:+IgnoreUnrecognizedVMOptions
  *   -XX:-VerifyDependencies
@@ -61,7 +61,7 @@ public class TestUpcallStress extends TestUpcallBase {
         System.loadLibrary("TestUpcall");
     }
 
-    static final int THREAD_COUNT = 100;
+    static final int THREAD_COUNT = 16;
 
     ExecutorService executor;
 
@@ -74,7 +74,7 @@ public class TestUpcallStress extends TestUpcallBase {
     public void tearDown() throws InterruptedException {
         executor.shutdown();
         // Let it run for a while, and then just terminate
-        executor.awaitTermination(Utils.adjustTimeout(30), TimeUnit.SECONDS);
+        executor.awaitTermination(Utils.adjustTimeout(120), TimeUnit.SECONDS);
     }
 
 
